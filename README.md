@@ -1,14 +1,13 @@
 # maven-github-stuctured-log-plugin
 
-This repository hosts a minimal Maven plugin demonstrating structured logging
-in GitHub Actions. The plugin exposes a single `hello` goal that prints a simple
-message and is used by the included demo project. The goal outputs GitHub
-Actions group commands around modules and plugin executions, laying the
-groundwork for more fine‑grained phase grouping.
+This repository hosts a Maven extension that rewrites Maven's log output with
+GitHub Actions group commands. All module, lifecycle phase, and plugin execution
+output is wrapped in `::group`/`::endgroup` markers to create collapsible
+sections in workflow logs. A simple `hello` goal remains for demo purposes, but
+the grouping is handled globally by an EventSpy.
 
 A single GitHub Actions workflow installs the plugin and executes the demo
-project on every push and pull request, ensuring the demo uses the freshly
-built version.
+project on every push and pull request so the demo runs with the latest build.
 
 To build everything locally run:
 
@@ -18,36 +17,27 @@ mvn -B -ntp verify
 
 ## Usage
 
-Add the plugin to your project and configure the grouping parameters as needed:
+Register the extension in your build so it can intercept Maven events:
 
 ```xml
 <build>
-  <plugins>
-    <plugin>
+  <extensions>
+    <extension>
       <groupId>com.example</groupId>
       <artifactId>structured-log-maven-plugin</artifactId>
       <version>1.0-SNAPSHOT</version>
-      <executions>
-        <execution>
-          <goals>
-            <goal>hello</goal>
-          </goals>
-        </execution>
-      </executions>
-      <configuration>
-        <bracketModules>true</bracketModules>
-        <bracketPhases>true</bracketPhases>
-        <bracketExecutions>true</bracketExecutions>
-      </configuration>
-    </plugin>
-  </plugins>
+    </extension>
+  </extensions>
 </build>
 ```
 
-Parameters:
+Grouping can be toggled with system properties:
 
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `bracketModules` | `true` | Wrap each module's output in a group |
-| `bracketPhases` | `true` | (Planned) Wrap each lifecycle phase in a group |
-| `bracketExecutions` | `true` | Wrap each plugin execution in a group |
+```bash
+mvn -DstructuredLog.bracketModules=false \
+    -DstructuredLog.bracketPhases=false \
+    -DstructuredLog.bracketExecutions=false verify
+```
+
+Each property defaults to `true` and controls whether modules, phases, or plugin
+executions are wrapped in groups.

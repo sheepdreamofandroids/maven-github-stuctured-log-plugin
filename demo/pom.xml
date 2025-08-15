@@ -11,6 +11,13 @@
   <packaging>jar</packaging>
 
   <build>
+    <extensions>
+      <extension>
+        <groupId>com.example</groupId>
+        <artifactId>structured-log-maven-plugin</artifactId>
+        <version>${project.version}</version>
+      </extension>
+    </extensions>
     <plugins>
       <plugin>
         <groupId>com.example</groupId>
