@@ -9,10 +9,11 @@ the grouping is handled globally by an EventSpy.
 A single GitHub Actions workflow installs the plugin and executes the demo
 project on every push and pull request so the demo runs with the latest build.
 
-To build everything locally run:
+To build everything locally run the plugin and demo separately:
 
 ```bash
-mvn -B -ntp verify
+mvn -B -ntp -f structured-log-maven-plugin/pom.xml install
+mvn -B -ntp -f demo/pom.xml verify
 ```
 
 ## Usage
