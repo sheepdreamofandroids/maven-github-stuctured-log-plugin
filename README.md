@@ -6,11 +6,9 @@ message and is used by the included demo project. The goal outputs GitHub
 Actions group commands around modules and plugin executions, laying the
 groundwork for more fine‑grained phase grouping.
 
-Two GitHub Actions workflows are provided:
-
-* **Build** – compiles and tests the plugin on every push and pull request.
-* **Demo** – runs after a successful build and executes the demo project using
-the freshly built plugin.
+A single GitHub Actions workflow installs the plugin and executes the demo
+project on every push and pull request, ensuring the demo uses the freshly
+built version.
 
 To build everything locally run:
 

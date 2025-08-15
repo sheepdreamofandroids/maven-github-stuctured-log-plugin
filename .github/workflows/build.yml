@@ -13,5 +13,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Build plugin
-        run: mvn -B -ntp -pl structured-log-maven-plugin verify
+      - name: Build and install plugin
+        run: mvn -B -ntp -pl structured-log-maven-plugin install
+      - name: Run demo with installed plugin
+        run: mvn -B -ntp -pl demo verify
